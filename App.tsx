@@ -1,31 +1,21 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
 import React, { type PropsWithChildren } from 'react';
 import {
   SafeAreaView,
   ScrollView,
   StatusBar,
-  StyleSheet,
   Text,
   useColorScheme,
   View,
 } from 'react-native';
 
 import {
-  Colors,
   DebugInstructions,
   Header,
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import styled, { ThemeProvider } from 'styled-components/native';
+import { theme } from './src/styles/theme';
 
 interface Props extends PropsWithChildren {
   title: string;
@@ -34,28 +24,14 @@ interface Props extends PropsWithChildren {
 function Section({ children, title }: Props) {
   const isDarkMode = useColorScheme() === 'dark';
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}
-      >
+    <SectionContainer>
+      <SectionTitle color={isDarkMode ? 'white' : 'black'}>
         {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}
-      >
+      </SectionTitle>
+      <SectionDescription color={isDarkMode ? 'white' : 'black'}>
         {children}
-      </Text>
-    </View>
+      </SectionDescription>
+    </SectionContainer>
   );
 }
 
@@ -63,59 +39,66 @@ function App() {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    backgroundColor: isDarkMode ? theme.colors.black : theme.colors.white,
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}
-      >
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}
+    <ThemeProvider theme={theme}>
+      <SafeAreaView style={backgroundStyle}>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <ScrollView
+          contentInsetAdjustmentBehavior="automatic"
+          style={backgroundStyle}
         >
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+          <Header />
+          <View
+            style={{
+              backgroundColor: isDarkMode
+                ? theme.colors.black
+                : theme.colors.white,
+            }}
+          >
+            <Section title="Step One">
+              Edit <Highlight>App.tsx</Highlight> to change this screen and then
+              come back to see your edits.
+            </Section>
+            <Section title="See Your Changes">
+              <ReloadInstructions />
+            </Section>
+            <Section title="Debug">
+              <DebugInstructions />
+            </Section>
+            <Section title="Learn More">
+              Read the docs to discover what to do next:
+            </Section>
+            <LearnMoreLinks />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </ThemeProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+const SectionContainer = styled(SafeAreaView)`
+  margin-top: 32px;
+  padding-horizontal: 24px;
+`;
+
+const SectionTitle = styled(Text)<{ color: 'black' | 'white' }>`
+  font-size: 24px;
+  font-weight: 600;
+  color: ${props => props.theme.colors[props.color]};
+`;
+
+const SectionDescription = styled(Text)<{ color: 'black' | 'white' }>`
+  margin-top: 8px;
+  font-size: 18px;
+  font-weight: 400;
+  color: ${props => props.theme.colors[props.color]};
+`;
+
+const Highlight = styled(Text)`
+  font-weight: 700;
+`;
 
 export default App;
