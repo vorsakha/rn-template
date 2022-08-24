@@ -30,6 +30,8 @@
       }
     ],
     "no-restricted-exports": "off",
+    "no-underscore-dangle": "off",
+    "react/require-default-props": "off",
     "react/style-prop-object": "off",
     "react/jsx-props-no-spreading": "off",
     "import/prefer-default-export": "off",
